@@ -1,7 +1,16 @@
 import { Link } from 'react-router-dom';
 import logo from '../../../public/logo.jpeg';
 import bgImg from '../../assets/register.jpeg';
+import { useForm } from 'react-hook-form';
 const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => console.log(data);
   return (
     <div className="flex justify-center items-center min-h-[calc(100vh-306px)]">
       <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-4xl ">
@@ -53,7 +62,7 @@ const Register = () => {
 
             <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
           </div>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-4">
               <label
                 className="block mb-2 text-sm font-medium text-gray-600 "
@@ -67,7 +76,13 @@ const Register = () => {
                 name="name"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300"
                 type="text"
+                {...register('name', { required: true })}
               />
+              {errors.name?.type === 'required' && (
+                <span className="text-red-500 text-sm font-light">
+                  this field is required
+                </span>
+              )}
             </div>
             <div className="mt-4">
               <label
@@ -82,7 +97,13 @@ const Register = () => {
                 name="photo"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300"
                 type="text"
+                {...register('photo', { required: true })}
               />
+              {errors.photo?.type === 'required' && (
+                <span className="text-red-500 text-sm font-light">
+                  this field is required
+                </span>
+              )}
             </div>
             <div className="mt-4">
               <label
@@ -97,7 +118,13 @@ const Register = () => {
                 name="email"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300"
                 type="email"
+                {...register('email', { required: true })}
               />
+              {errors.email?.type === 'required' && (
+                <span className="text-red-500 text-sm font-light">
+                  this field is required
+                </span>
+              )}
             </div>
 
             <div className="mt-4">
@@ -116,7 +143,33 @@ const Register = () => {
                 name="password"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300"
                 type="password"
+                {...register('password', {
+                  required: true,
+                  minLength: 8,
+                  maxLength: 20,
+                  pattern: /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
+                })}
               />
+              {errors.password?.type === 'required' && (
+                <span className="text-red-700">This field is required</span>
+              )}
+              {errors.password?.type === 'minLength' && (
+                <span className="text-red-700">minimum 8 character</span>
+              )}
+              {errors.password?.type === 'maxLength' && (
+                <span className="text-red-700">max 20 character</span>
+              )}
+              {errors.password?.type === 'pattern' && (
+                <span className="text-red-700">
+                  password must be contain an uppercase one lowercase and one
+                  special character
+                </span>
+              )}
+              {errors.password?.type === 'required' && (
+                <span className="text-red-500 text-sm font-light">
+                  this field is required
+                </span>
+              )}
             </div>
             <div className="mt-4">
               <div className="flex justify-between">
@@ -133,7 +186,20 @@ const Register = () => {
                 name="confirmPassword"
                 className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg    focus:border-blue-400 focus:ring-opacity-40  focus:outline-none focus:ring focus:ring-blue-300"
                 type="password"
+                {...register('confirmPassword', {
+                  required: true,
+                  validate: (value) => {
+                    if (watch('password') != value) {
+                      return `your password doesn't match`;
+                    }
+                  },
+                })}
               />
+              {errors.confirmPassword && (
+                <span className="text-red-500 text-sm font-light">
+                  re-type the same password
+                </span>
+              )}
             </div>
             <div className="mt-6">
               <button
