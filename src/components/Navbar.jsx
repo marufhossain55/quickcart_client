@@ -2,6 +2,7 @@ import { IoIosSearch } from 'react-icons/io';
 import { CiMenuFries } from 'react-icons/ci';
 import logo from '../../public/logo.jpeg';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -25,13 +26,17 @@ const Navbar = () => {
       </ul>
 
       <div className="items-center gap-[10px] flex">
-        <button className="py-[7px] text-[1rem] px-[16px] rounded-full capitalize hover:text-[#3B9DF8] transition-all duration-300 sm:flex hidden">
-          Sign in
-        </button>
-        <button className="py-[7px] text-[1rem] px-[16px] rounded-full capitalize bg-[#3B9DF8] text-white hover:bg-blue-400 transition-all duration-300 sm:flex hidden">
-          Sign up
-        </button>
+        <Link to="/login">
+          <button className="py-[7px] text-[1rem] px-[16px] rounded-full capitalize hover:text-[#3B9DF8] transition-all duration-300 sm:flex hidden">
+            Sign in
+          </button>
+        </Link>
 
+        <Link to="/register">
+          <button className="py-[7px] text-[1rem] px-[16px] rounded-full capitalize bg-[#3B9DF8] text-white hover:bg-blue-400 transition-all duration-300 sm:flex hidden">
+            Sign up
+          </button>
+        </Link>
         <CiMenuFries
           className="text-[1.8rem] mr-1 text-[#424242]c cursor-pointer lg:hidden flex"
           onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
